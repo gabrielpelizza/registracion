@@ -1,9 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const {index, login, loginProcess, register, registerProcess, profile} = require('../controllers/indexController')
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', index);
+
+router.get('/login', login);
+router.post('/login', loginProcess);
+
+router.get('/register', register);
+router.post('/register', registerProcess);
+
+router.get('/profile', profile);
 
 module.exports = router;
