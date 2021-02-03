@@ -8,4 +8,12 @@
 <body>
     <p>este es tu perfil</p>
 </body>
+    <main>
+        <% resultado.forEach(user => { %>
+            <img src="/images/avatar/<%-user.img %> " alt="">
+            <p>Nombre: <%- user.nombre%></p>
+            <p>Apellido: <%- user.apellido%></p>
+            <p>email: <%- user.email%></p>
+        <% }) %>
+    </main>
 </html>

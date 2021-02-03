@@ -1,7 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
-const usuarios = require('../data/usuarios');
+
 
 const {getUsers, setUsers} = require(path.join('..','data','usuarios'));
 
@@ -26,7 +26,7 @@ module.exports = {
 
         if(result){
             if(bcrypt.compareSync(pass.trim(),result.pass)){
-                return res.redirect('profile')
+                return res.redirect('profile/' + result.id)
             }else{
                 res.render('login',{
                     error : "Credenciales inválidas!"
@@ -42,10 +42,9 @@ module.exports = {
         res.render('register');
     },
 
-    registerProcess : (req,res)=>{
+    registerProcess : (req,res,next)=>{
         const {email, nombre, apellido, pass} = req.body;
-
-
+        
         if(!email || !pass){
             return res.redirect('register');
         }
@@ -73,7 +72,10 @@ module.exports = {
             pass : passHash,
             email : email,
             apellido : apellido,
+            img : req.files[0].filename
+
         }
+
 
         users.push(newUser);
 
@@ -82,6 +84,12 @@ module.exports = {
         res.redirect('login');
     },
     profile:(req,res)=>{
-        res.render('profile')
+        const id = Number(req.params.id);
+
+        const resultado = [users.find(a => a.id === id)]
+        
+        res.render('profile',{
+            resultado
+        })
     }
 }
